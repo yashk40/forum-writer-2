@@ -52,10 +52,8 @@ RUN npm install
 # Copy application files
 COPY . .
 
-# Install Chromium for Puppeteer
-RUN npx puppeteer browsers install chrome
-
-
+# Expose the port
+EXPOSE 4020
 
 # Start the application
 CMD ["node", "index.js"]
