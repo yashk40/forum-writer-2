@@ -40,6 +40,11 @@ app.post('/submit', async (req, res) => {
   }
 });
 
+// New /health endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'started' });
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/submit`);
