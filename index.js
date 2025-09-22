@@ -244,6 +244,6 @@ async function runPuppeteerScript(threadTitle, linkUrl, imageUrl) {
    
   } finally {
     console.log('Closing browser...');
-  
+    await browser.close();
   }
 }
