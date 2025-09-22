@@ -1,7 +1,7 @@
 # Use Node.js 18 as the base image
 FROM node:18
 
-# Install system dependencies for Puppeteer
+# Install dependencies for Puppeteer
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-liberation \
@@ -42,9 +42,6 @@ RUN apt-get update && apt-get install -y \
     xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Install nginx for reverse proxy
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
-
 # Set working directory
 WORKDIR /app
 
@@ -52,14 +49,13 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 
-# Copy the application script
-COPY index.js .
+# Copy application files
+COPY . .
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+# Install Chromium for Puppeteer
+RUN npx puppeteer browsers install chrome
 
-# Expose the port Render will use (dynamic, set via PORT env variable)
-EXPOSE $PORT
 
-# Start nginx and the Node.js app
-CMD ["sh", "-c", "nginx && node index.js"]
+
+# Start the application
+CMD ["node", "index.js"]
